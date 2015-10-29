@@ -3,11 +3,16 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.sonatype.oss</groupId>
-		<artifactId>oss-parent</artifactId>
-		<version>7</version>
-	</parent>
+	<distributionManagement>
+		<repository>
+			<id>idgis-restricted-releases</id>
+			<url>http://nexus.idgis.eu/content/repositories/restricted-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>idgis-restricted-snapshots</id>
+			<url>http://nexus.idgis.eu/content/repositories/restricted-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<packaging>jar</packaging>
 	<groupId>org.webjars</groupId>
@@ -95,7 +100,7 @@
                                 <echo message="unzip archive" />
                                 <unzip src="${project.build.directory}/dojo.zip" dest="${project.build.directory}/dojo" />
                                 <echo message="moving resources" />
-                                <move todir="${destDir}" overwrite="true" verbose="true">
+                                <move todir="${destDir}/dojo/dnd" overwrite="true" verbose="true">
                                     <fileset dir="${project.build.directory}/dojo/dojo-release-${upstream.version}/dojo/dnd"/>
                                 </move>
                             </target>
