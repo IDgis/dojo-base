@@ -54,12 +54,13 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>wagon-maven-plugin</artifactId>
-				<version>1.0-beta-4</version>
-				<executions>
-					<execution>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>wagon-maven-plugin</artifactId>
+                <version>1.0-beta-4</version>
+                <executions>
+                    <execution>
+                    	<id>1</id>
 						<phase>process-resources</phase>
 						<goals>
 							<goal>download-single</goal>
@@ -70,8 +71,39 @@
 							<toFile>${destDir}/dojo.js</toFile>
 						</configuration>
 					</execution>
-				</executions>
-			</plugin>
+                    <execution>
+                    	<id>2</id>
+                        <phase>process-resources</phase>
+                        <goals><goal>download-single</goal></goals>
+                        <configuration>
+                            <url>${upstream.url}</url>
+                            <fromFile>dojo-release-${upstream.version}.zip</fromFile>
+                            <toFile>${project.build.directory}/dojo.zip</toFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+			<plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals><goal>run</goal></goals>
+                        <configuration>
+                            <target>
+                                <echo message="unzip archive" />
+                                <unzip src="${project.build.directory}/dojo.zip" dest="${project.build.directory}/dojo" />
+                                <echo message="moving resources" />
+                                <move todir="${destDir}" overwrite="true" verbose="true">
+                                    <fileset dir="${project.build.directory}/dojo/dojo-release-${upstream.version}/dojo/dnd"/>
+                                </move>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+			
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -91,6 +123,41 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.codehaus.mojo
+										</groupId>
+										<artifactId>
+											wagon-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.0-beta-4,)
+										</versionRange>
+										<goals>
+											<goal>download-single</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
 </project>
