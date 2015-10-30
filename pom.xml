@@ -43,12 +43,6 @@
 		</developer>
 	</developers>
 
-	<scm>
-		<url>http://github.com/webjars/dojo-base</url>
-		<connection>scm:git:https://github.com/webjars/dojo-base.git</connection>
-		<developerConnection>scm:git:https://github.com/webjars/dojo-base.git</developerConnection>
-		<tag>HEAD</tag>
-	</scm>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -65,19 +59,6 @@
                 <version>1.0-beta-4</version>
                 <executions>
                     <execution>
-                    	<id>1</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>download-single</goal>
-						</goals>
-						<configuration>
-							<url>${upstream.url}</url>
-							<fromFile>dojo.js</fromFile>
-							<toFile>${destDir}/dojo.js</toFile>
-						</configuration>
-					</execution>
-                    <execution>
-                    	<id>2</id>
                         <phase>process-resources</phase>
                         <goals><goal>download-single</goal></goals>
                         <configuration>
@@ -102,6 +83,7 @@
                                 <echo message="moving resources" />
                                 <move todir="${destDir}" overwrite="true" verbose="true">
                                    <fileset dir="${project.build.directory}/dojo/dojo-release-${upstream.version}/dojo">
+                                       <include name="dojo.js"/>
                                       <include name="dnd/*"/>
                           			  <include name="touch.js"/>
         							  <include name="window.js"/>
