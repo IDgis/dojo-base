@@ -15,9 +15,9 @@
 	</distributionManagement>
 
 	<packaging>jar</packaging>
-	<groupId>org.webjars</groupId>
+	<groupId>nl.idgis.webjars</groupId>
 	<artifactId>dojo-base</artifactId>
-	<version>1.10.0-SNAPSHOT</version>
+	<version>1.10.0-1</version>
 	<name>dojo-base</name>
 	<description>WebJar for Dojo Base</description>
 	<url>http://webjars.org</url>
@@ -100,9 +100,14 @@
                                 <echo message="unzip archive" />
                                 <unzip src="${project.build.directory}/dojo.zip" dest="${project.build.directory}/dojo" />
                                 <echo message="moving resources" />
-                                <move todir="${destDir}/dojo/dnd" overwrite="true" verbose="true">
-                                    <fileset dir="${project.build.directory}/dojo/dojo-release-${upstream.version}/dojo/dnd"/>
+                                <move todir="${destDir}" overwrite="true" verbose="true">
+                                   <fileset dir="${project.build.directory}/dojo/dojo-release-${upstream.version}/dojo">
+                                      <include name="dnd/*"/>
+                          			  <include name="touch.js"/>
+        							  <include name="window.js"/>
+                                   </fileset>
                                 </move>
+                            
                             </target>
                         </configuration>
                     </execution>
